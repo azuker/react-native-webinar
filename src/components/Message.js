@@ -3,9 +3,8 @@ import { View, Text, StyleSheet } from 'react-native';
 
 const Message = ({ item: { incoming, message }}) => (
   <View style={[
-      styles.listItem, incoming ?
-          styles.incomingMessage :
-          styles.outgoingMessage
+      styles.listItem, incoming &&
+          styles.incomingMessage
   ]}>
       <Text>{message}</Text>
   </View>

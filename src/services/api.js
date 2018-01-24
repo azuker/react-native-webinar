@@ -1,3 +1,6 @@
+import firebase from 'firebase';
+
+const uuid = '123-123-123-123-123-123';
 
 export const mockMessages = [
   {
@@ -67,18 +70,36 @@ export const mockContacts = [{
   avatarImageUri: 'https://i.imgur.com/IzVgDM9.png'
 }]
 
+export const initApi = () => firebase.initializeApp({
+  apiKey: "AIzaSyDaFZTtN5c2rWEAwomk0sz3JhpchVxDNYQ",
+  authDomain: "chatapp-ce598.firebaseapp.com",
+  databaseURL: "https://chatapp-ce598.firebaseio.com",
+  projectId: "chatapp-ce598",
+  storageBucket: "chatapp-ce598.appspot.com",
+  messagingSenderId: "681765993253"
+})
 
-export const getMessages = () => (
-  new Promise(resolve => setTimeout(() => resolve(mockMessages), 1000))
-)
 
-export const postMessage = (message) => mockMessages.push({
-  incoming: false,
-  message
-});
+
+export const getMessages = (updaterFn) => {
+  firebase.database().ref('messages').on('value', updaterFn);
+  return () => firebase.database().ref('messages').off();
+}
+
+
+export const postMessage = (message) => {
+  if (Boolean(message)) {
+    return firebase.database().ref('messages').push({
+      message,
+      incoming: true
+    });
+  }
+}
 
 export const getChats = () => (
   new Promise(resolve => setTimeout(() => resolve(mockContacts),
   1000
 ))
 )
+
+console.log(JSON.stringify(mockContacts))

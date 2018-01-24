@@ -29,7 +29,7 @@ class Compose extends React.Component {
             onChangeText={(text) => this.setState({text})}
             onSubmitEditing={() => this.submit}
             editable = {true}
-            maxLength = {40}
+            maxLength = {200}
           />
           <Button
             onPress={this.submit}

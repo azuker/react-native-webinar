@@ -21,14 +21,18 @@ export default class ChatScreen extends React.Component {
         messages: []
     }
 
-    keyboardVerticalOffset = Platform.OS === 'ios' ? 60 : 100
+    keyboardVerticalOffset = Platform.OS === 'android' ? 60 : 100
 
     componentDidMount() {
-      getMessages().then((messages) => {
-            this.setState({
-                messages
-            })
-        });
+      this.unsubscribeGetMessages = getMessages((snapshot) => {
+        this.setState({
+            messages: Object.values(snapshot.val())
+        })
+      })
+    }
+    
+    componentWillUnmount() {
+      this.unsubscribeGetMessages();
     }
 
     getMessageList(){

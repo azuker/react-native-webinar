@@ -1,8 +1,16 @@
 import React from 'react';
 import { StyleSheet, Text, View, Platform, StatusBar } from 'react-native';
 import AppNavigator from './src';
+import { initApi } from './src/services/api';
+
+console.ignoredYellowBox = ['Remote debugger'];
 
 export default class App extends React.Component {
+
+  componentDidMount(){
+    initApi();
+  }
+  
   render() {
     return (
       <View style={styles.app}>
@@ -11,40 +19,6 @@ export default class App extends React.Component {
     );
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 const styles = StyleSheet.create({
   app: {
