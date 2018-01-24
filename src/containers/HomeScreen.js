@@ -1,25 +1,51 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button, StatusBar } from 'react-native';
+import images from '../assets'
+import { 
+  StyleSheet, Text, View, Button, StatusBar, ImageBackground, 
+  FlatList,
+  ActivityIndicator } from 'react-native';
+import { getChats } from '../services/api';
+import Contact from '../components/Contact';
 
 export default class HomeScreen extends React.Component {
   
   static navigationOptions = {
-    title: 'Welcome',
+    title: 'Chats',
   };
+
+  state = {
+    chats: []
+  }
+
+  componentDidMount() {
+    getChats().then((chats) => {
+        this.setState({
+            chats
+        })
+    });
+  }
 
   render() {
     return (
-      <View style={styles.container}>
-        <Text>Welcome to React Native webinar</Text>
-        <Button 
-          style={styles.button}
-          title="Navigate to ChatScreen"
-          onPress={
-            () => this.props.navigation.navigate(
-             'chat', { user: 'John' })
-          }
-        /> 
-      </View>
+      <ImageBackground
+          style={styles.container} source={images.bg}> 
+          { this.state.chats.length > 0 ? (
+            <FlatList
+            data={this.state.chats}
+            renderItem={({ item }) => 
+              <Contact navigate={(name) =>    
+                this.props.navigation.navigate('chat', 
+                { user: name })} {...item} 
+              /> 
+            }
+            keyExtractor={(item, index) => (`chat-${index}`)}
+        />
+          ) : 
+          <View style={{ flex: 1, justifyContent: 'center'}}>
+            <ActivityIndicator size="large"/>                  
+          </View>
+        }
+      </ImageBackground>
     );
   }
 }
@@ -27,10 +53,9 @@ export default class HomeScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+    backgroundColor: 'transparent', 
+    width: '100%'
+},
   button: {
     padding: 10
   }
