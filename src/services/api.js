@@ -72,6 +72,11 @@ export const getMessages = () => (
   new Promise(resolve => setTimeout(() => resolve(mockMessages), 1000))
 )
 
+export const postMessage = (message) => mockMessages.push({
+  incoming: false,
+  message
+});
+
 export const getChats = () => (
   new Promise(resolve => setTimeout(() => resolve(mockContacts),
   1000

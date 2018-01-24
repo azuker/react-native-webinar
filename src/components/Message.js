@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
-const Message = ({ incoming, message}) => (
+const Message = ({ item: { incoming, message }}) => (
   <View style={[
       styles.listItem, incoming ?
           styles.incomingMessage :
